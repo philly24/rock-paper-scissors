@@ -1,8 +1,5 @@
 
 // not industry standard to use global var but im tired rn
-let playerScore = 0;
-let computerScore = 0;
-
 /**
  * getComputerChoice - A function to randomly determine the computer's choice in a round of "Rock, Paper, Scissors".
  *
@@ -31,15 +28,9 @@ function getComputerChoice() {
  *
  * @param  {string} playerSelection   The player's choice for this round. Expected to be 'rock', 'paper', or 'scissors'.
  * @param  {string} computerSelection The computer's choice for this round. Also expected to be 'rock', 'paper', or 'scissors'.
- * @return {string} {boolean}                  The one with the winning condition gets the win and this is based on the popular kids game 
- *
+ * @return {number} 1 if player wins, -1 if computer wins, 0 if it's a draw.
  */
 function playRound(playerSelection, computerSelection) {
-    // If both the player and the computer made the same choice, it's a draw
-    if (playerSelection === computerSelection) {
-        return "It's a draw!";
-    }
-
     // Define an object where the keys are choices and the values are what they beat
     const wins = {
         'rock': 'scissors',  
@@ -47,17 +38,15 @@ function playRound(playerSelection, computerSelection) {
         'paper': 'rock'     
     };
 
-    // If the player's choice beats the computer's choice (based on the 'wins' object), 
-    // then the player wins
-    if (wins[playerSelection] === computerSelection) {
-        // Construct the winning message, capitalize the first letter of the player's choice
-        playerScore += 1;
-        return `You Win! ${playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1)} beats ${computerSelection}`;
+    if (playerSelection === computerSelection) {
+        console.log("It's a draw!");
+        return 0;
+    } else if (wins[playerSelection] === computerSelection) {
+        console.log(`You Win! ${playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1)} beats ${computerSelection}`);
+        return 1;
     } else {
-        // Otherwise, the computer wins. Construct the losing message, 
-        // capitalize the first letter of the computer's choice
-        computerScore += 1;
-        return `You Lose! ${computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1)} beats ${playerSelection}`;
+        console.log(`You Lose! ${computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1)} beats ${playerSelection}`);
+        return -1;
     }
 }
 
@@ -70,28 +59,25 @@ function playRound(playerSelection, computerSelection) {
  * winner of the game and logs a message to the console accordingly.
  */
 function game() {
+    let playerScore = 0;
+    let computerScore = 0;
 
-    // Continues to play rounds until either the computer or player has reached 5 wins
-    while(computerScore < 5 && playerScore < 5) {
+    while (playerScore < 5 && computerScore < 5) {
+        let playerSelection = prompt("rock, paper, or scissors? ");
+        const roundResult = playRound(playerSelection, getComputerChoice());
 
-        // Prompt the player for their choice
-        let playerSelection = prompt("rock, paper, or sissors? ");
-
-        // Call the playRound function with the player's choice and the computer's choice (determined by calling the getComputerChoice function)
-        // Log the outcome of the round
-        const methodCall = playRound(playerSelection, getComputerChoice());
-        console.log(methodCall);
+        if (roundResult === 1) {
+            playerScore++;
+        } else if (roundResult === -1) {
+            computerScore++;
+        }
     }
 
-    // After the loop has finished (meaning either the computer or player has reached 5 wins), determine and log the overall winner
-    if(playerScore > computerScore){
+    if (playerScore > computerScore) {
         console.log("You won the best out of 5!");
-    }
-    else{
+    } else {
         console.log("You lost the best out of 5 :(");
     }
 }
 
-
-// calling the driver function 
 game();
