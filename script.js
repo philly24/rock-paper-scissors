@@ -1,5 +1,3 @@
-
-// not industry standard to use global var but im tired rn
 /**
  * getComputerChoice - A function to randomly determine the computer's choice in a round of "Rock, Paper, Scissors".
  *
@@ -23,6 +21,27 @@ function getComputerChoice() {
     return arrayOfChoice[randomChoice];
 }
 
+function getPlayerChoice(){
+    const rockButton = document.getElementById("rockId");
+    const paperButton = document.getElementById("paperId");
+    const scissorsButton = document.getElementById("scissorsId");
+
+    // When the button is clicked, get the computer's choice and play a round
+    rockButton.addEventListener("click", function(){
+        console.log("rock button was clicked");
+        playRound("rock", getComputerChoice());
+    });
+    paperButton.addEventListener("click", function(){
+        console.log("paper button was clicked");
+        playRound("paper", getComputerChoice());
+    });
+    scissorsButton.addEventListener("click", function(){
+        console.log("scissors button was clicked");
+        playRound("scissors", getComputerChoice());
+    });
+}
+
+
 /**
  * playRound - A function to determine the outcome of a round of the game "Rock, Paper, Scissors".
  *
@@ -32,6 +51,7 @@ function getComputerChoice() {
  */
 function playRound(playerSelection, computerSelection) {
     // Define an object where the keys are choices and the values are what they beat
+    
     const wins = {
         'rock': 'scissors',  
         'scissors': 'paper', 
@@ -62,22 +82,40 @@ function game() {
     let playerScore = 0;
     let computerScore = 0;
 
-    while (playerScore < 5 && computerScore < 5) {
-        let playerSelection = prompt("rock, paper, or scissors? ");
-        const roundResult = playRound(playerSelection, getComputerChoice());
+    function playRound(playerSelection, computerSelection) {
+        const wins = {
+            'rock': 'scissors',  
+            'scissors': 'paper', 
+            'paper': 'rock'     
+        };
 
-        if (roundResult === 1) {
+        if (playerSelection === computerSelection) {
+            console.log("It's a draw!");
+            return 0;
+        } else if (wins[playerSelection] === computerSelection) {
+            console.log(`You Win! ${playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1)} beats ${computerSelection}`);
             playerScore++;
-        } else if (roundResult === -1) {
+        } else {
+            console.log(`You Lose! ${computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1)} beats ${playerSelection}`);
             computerScore++;
+        }
+
+        if (playerScore === 5) {
+            console.log("You won the best out of 5!");
+        } else if (computerScore === 5) {
+            console.log("You lost the best out of 5 :(");
         }
     }
 
-    if (playerScore > computerScore) {
-        console.log("You won the best out of 5!");
-    } else {
-        console.log("You lost the best out of 5 :(");
-    }
+    getPlayerChoice();
 }
 
-game();
+window.onload = function() {
+    game();
+};
+
+
+
+
+
+
