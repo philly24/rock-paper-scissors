@@ -1,92 +1,61 @@
 /**
- * getComputerChoice - A function to randomly determine the computer's choice in a round of "Rock, Paper, Scissors".
+ * createGame - A factory function to encapsulate the game state and behaviour.
  *
- * @return {string} The computer's choice for this round. One of 'rock', 'paper', or 'scissors'.
- *
- * The function works by creating an array of the possible choices and then selecting a random index from that array. 
- * The choice at the selected index is then returned as the computer's choice. This ensures that each choice ('rock', 'paper', 
- * 'scissors') is equally likely to be chosen.
+ * @return {object} An object with methods to start the game and make a player's choice.
  */
-function getComputerChoice() {
-    // Define an array of the possible choices
-    const arrayOfChoice = ["rock", "paper", "scissors"];
-
-    // Generate a random index for the array
-    let randomChoice = Math.floor(Math.random() * 3);
-
-    // Log the randomly chosen item to the console for debugging
-    console.log(arrayOfChoice[randomChoice]);
-
-    // Return the randomly chosen item
-    return arrayOfChoice[randomChoice];
-}
-
-function getPlayerChoice(){
-    const rockButton = document.getElementById("rockId");
-    const paperButton = document.getElementById("paperId");
-    const scissorsButton = document.getElementById("scissorsId");
-
-    // When the button is clicked, get the computer's choice and play a round
-    rockButton.addEventListener("click", function(){
-        console.log("rock button was clicked");
-        playRound("rock", getComputerChoice());
-    });
-    paperButton.addEventListener("click", function(){
-        console.log("paper button was clicked");
-        playRound("paper", getComputerChoice());
-    });
-    scissorsButton.addEventListener("click", function(){
-        console.log("scissors button was clicked");
-        playRound("scissors", getComputerChoice());
-    });
-}
-
-
-/**
- * playRound - A function to determine the outcome of a round of the game "Rock, Paper, Scissors".
- *
- * @param  {string} playerSelection   The player's choice for this round. Expected to be 'rock', 'paper', or 'scissors'.
- * @param  {string} computerSelection The computer's choice for this round. Also expected to be 'rock', 'paper', or 'scissors'.
- * @return {number} 1 if player wins, -1 if computer wins, 0 if it's a draw.
- */
-function playRound(playerSelection, computerSelection) {
-    // Define an object where the keys are choices and the values are what they beat
-    
-    const wins = {
-        'rock': 'scissors',  
-        'scissors': 'paper', 
-        'paper': 'rock'     
-    };
-
-    if (playerSelection === computerSelection) {
-        console.log("It's a draw!");
-        return 0;
-    } else if (wins[playerSelection] === computerSelection) {
-        console.log(`You Win! ${playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1)} beats ${computerSelection}`);
-        return 1;
-    } else {
-        console.log(`You Lose! ${computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1)} beats ${playerSelection}`);
-        return -1;
-    }
-}
-
-/**
- * game - A function that drives a "best out of 5" game of "Rock, Paper, Scissors" between the player and the computer.
- *
- * This function repeatedly prompts the player for their choice, gets the computer's choice by calling the getComputerChoice 
- * function, and determines the outcome of the round by calling the playRound function. It keeps track of the scores and 
- * continues to play rounds until either the player or the computer has won 5 rounds. At that point, it determines the overall 
- * winner of the game and logs a message to the console accordingly.
- */
-function game() {
+function createGame() {
+    // These variables hold the scores for the current game.
     let playerScore = 0;
     let computerScore = 0;
 
+    /**
+     * getComputerChoice - Randomly determine the computer's choice in a round.
+     *
+     * @return {string} The computer's choice for this round. One of 'rock', 'paper', or 'scissors'.
+     */
+    function getComputerChoice() {
+        const arrayOfChoice = ["rock", "paper", "scissors"];
+        let randomChoice = Math.floor(Math.random() * 3);
+        console.log(arrayOfChoice[randomChoice]);
+        return arrayOfChoice[randomChoice];
+    }
+
+    /**
+     * getPlayerChoice - Attach event listeners to the player's choice buttons to get the player's choice.
+     */
+    function getPlayerChoice() {
+        const rockButton = document.getElementById("rockId");
+        const paperButton = document.getElementById("paperId");
+        const scissorsButton = document.getElementById("scissorsId");
+
+        rockButton.addEventListener("click", function () {
+            console.log("rock button was clicked");
+            playRound("rock", getComputerChoice());
+            game();
+        });
+        paperButton.addEventListener("click", function () {
+            console.log("paper button was clicked");
+            playRound("paper", getComputerChoice());
+            game();
+        });
+        scissorsButton.addEventListener("click", function () {
+            console.log("scissors button was clicked");
+            playRound("scissors", getComputerChoice());
+            game();
+        });
+    }
+
+    /**
+     * playRound - Determine the outcome of a round of the game "Rock, Paper, Scissors".
+     *
+     * @param  {string} playerSelection The player's choice for this round. Expected to be 'rock', 'paper', or 'scissors'.
+     * @param  {string} computerSelection The computer's choice for this round. Also expected to be 'rock', 'paper', or 'scissors'.
+     */
     function playRound(playerSelection, computerSelection) {
         const wins = {
-            'rock': 'scissors',  
-            'scissors': 'paper', 
-            'paper': 'rock'     
+            'rock': 'scissors',
+            'scissors': 'paper',
+            'paper': 'rock'
         };
 
         if (playerSelection === computerSelection) {
@@ -99,23 +68,29 @@ function game() {
             console.log(`You Lose! ${computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1)} beats ${playerSelection}`);
             computerScore++;
         }
+    }
 
+    /**
+     * game - Check if a player has won the game (reached 5 points) and resets the score.
+     */
+    function game() {
         if (playerScore === 5) {
             console.log("You won the best out of 5!");
+            playerScore = 0;
+            computerScore = 0;
         } else if (computerScore === 5) {
             console.log("You lost the best out of 5 :(");
+            playerScore = 0;
+            computerScore = 0;
         }
     }
 
-    getPlayerChoice();
+    // Return the public interface for the game.
+    return { getPlayerChoice, game };
 }
 
-window.onload = function() {
-    game();
+// Start a new game when the page loads.
+window.onload = function () {
+    const game = createGame();
+    game.getPlayerChoice();
 };
-
-
-
-
-
-
