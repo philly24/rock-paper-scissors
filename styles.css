@@ -1,0 +1,13 @@
+.container {
+    /* This will stretch the container to use full viewport height */
+    height: 100vh;
+    /* This will make sure all direct children of the container are in a column */
+    display: flex;
+    flex-direction: column;
+    /* These will align the children in the center along both axes */
+    justify-content: center;
+    align-items: center;
+  }
+ 
+  
+  
