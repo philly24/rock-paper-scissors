@@ -20,7 +20,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 40px; /* Adjust this value to increase or decrease the space from the header */
+    margin-top: 2.5em; /* Adjust this value to increase or decrease the space from the header */
     width: 80%; /* Adjust this value to increase or decrease the space between h2 and h3 */
     text-align: center; /* Adjust alignment of text */
   }
@@ -35,23 +35,23 @@
     color: white;
     width: 100%;
     text-align: center;
-    padding: 25px 0;
+    padding: 1.5em 0;
 }
 
 .header h1{
-    font-size: 5em;
+    font-size: 3em;
 }
 /* buttons styling portion */
 .rps-buttons {
     display: flex;
     justify-content: space-around;
-    width: 100%;
-    margin-top: 60px; /* Adjust this to move the buttons lower */
+    width: 50%;
+    margin-top: 3.75em; /* Adxjust this to move the buttons lower */
 }
 
 button.rock, button.paper, button.scissors {
-    height: 350px; /* Adjust this to change the button size */
-    width: 350px; /* Adjust this to change the button size */
+    height: 12em; /* Adjust this to change the button size */
+    width: 12em; /* Adjust this to change the button size */
     border: none;
 }
 
@@ -80,8 +80,8 @@ button.scissors {
     display: flex;
     justify-content: space-around;
     width: 70%; /* Decrease this value if you want the scores closer to the center */
-    font-size: 3em; /* Increase or decrease this value to adjust the text size */
-    margin-top: 100px; /* Add some margin to move the score-board lower */
+    font-size: 2em; /* Increase or decrease this value to adjust the text size */
+    margin-top: 3em; /* Add some margin to move the score-board lower */
     color:#262626;
 }
 
@@ -90,6 +90,11 @@ button.scissors {
     text-align: center;
 }
 
+.score-board img {
+    height: 5em; /* adjust to change player/computer choices */
+    width: 5em;  /* adjust to change player/computer choices */
+    filter: brightness(200%);
+}
 /* footer styling */
 footer{
     background-color: #262626;
@@ -98,5 +103,5 @@ footer{
     position: fixed;
     bottom: 0;
     width: 100%;
-    padding: 10px 0;
+    padding: .625em 0;
 }

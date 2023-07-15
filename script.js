@@ -17,9 +17,25 @@ function createGame() {
         const arrayOfChoice = ["rock", "paper", "scissors"];
         let randomChoice = Math.floor(Math.random() * 3);
         console.log(arrayOfChoice[randomChoice]);
+        
+       
+        
         return arrayOfChoice[randomChoice];
     }
 
+    function getComputerChoiceHelper(ComputerChoice){
+        switch(ComputerChoice){
+            case "rock":
+                document.getElementById('computerImage').src = "./img/rock.png";
+                break;
+            case "paper":
+                document.getElementById('computerImage').src = "./img/paper.png";
+                break;
+            case "scissors":
+                document.getElementById('computerImage').src = "./img/scissors.png";
+                break;
+        }
+    }
     /**
      * getPlayerChoice - Attach event listeners to the player's choice buttons to get the player's choice.
      */
@@ -27,20 +43,30 @@ function createGame() {
         const rockButton = document.getElementById("rockId");
         const paperButton = document.getElementById("paperId");
         const scissorsButton = document.getElementById("scissorsId");
+        let computerChoice = getComputerChoice();  // store the computer choice in a variable
 
         rockButton.addEventListener("click", function () {
+            let computerChoice = getComputerChoice();  // store the computer choice in a variable
             console.log("rock button was clicked");
-            playRound("rock", getComputerChoice());
+            document.getElementById('playerImage').src = "./img/rock.png";
+            getComputerChoiceHelper(computerChoice);
+            playRound("rock", computerChoice);
             game();
         });
         paperButton.addEventListener("click", function () {
+            let computerChoice = getComputerChoice();  // store the computer choice in a variable
             console.log("paper button was clicked");
-            playRound("paper", getComputerChoice());
+            document.getElementById('playerImage').src = "./img/paper.png";
+            getComputerChoiceHelper(computerChoice);
+            playRound("paper", computerChoice);
             game();
         });
         scissorsButton.addEventListener("click", function () {
+            let computerChoice = getComputerChoice();  // store the computer choice in a variable
             console.log("scissors button was clicked");
-            playRound("scissors", getComputerChoice());
+            document.getElementById('playerImage').src = "./img/scissors.png";
+            getComputerChoiceHelper(computerChoice);
+            playRound("scissors", computerChoice);
             game();
         });
     }
@@ -58,6 +84,7 @@ function createGame() {
             'paper': 'rock'
         };
 
+        // game logic for determining who wins and lose
         if (playerSelection === computerSelection) {
             console.log("It's a draw!");
             return 0;
