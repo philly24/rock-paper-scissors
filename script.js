@@ -17,14 +17,14 @@ function createGame() {
         const arrayOfChoice = ["rock", "paper", "scissors"];
         let randomChoice = Math.floor(Math.random() * 3);
         console.log(arrayOfChoice[randomChoice]);
-        
-       
-        
+
+
+
         return arrayOfChoice[randomChoice];
     }
 
-    function getComputerChoiceHelper(ComputerChoice){
-        switch(ComputerChoice){
+    function getComputerChoiceHelper(ComputerChoice) {
+        switch (ComputerChoice) {
             case "rock":
                 document.getElementById('computerImage').src = "./img/rock.png";
                 break;
@@ -91,9 +91,11 @@ function createGame() {
         } else if (wins[playerSelection] === computerSelection) {
             console.log(`You Win! ${playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1)} beats ${computerSelection}`);
             playerScore++;
+            document.getElementById('playerScore').textContent = playerScore; // Update the player's score in the DOM
         } else {
             console.log(`You Lose! ${computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1)} beats ${playerSelection}`);
             computerScore++;
+            document.getElementById('computerScore').textContent = computerScore; // Update the computer's score in the DOM
         }
     }
 
@@ -103,14 +105,29 @@ function createGame() {
     function game() {
         if (playerScore === 5) {
             console.log("You won the best out of 5!");
+            alert("You won the best out of 5!");
             playerScore = 0;
             computerScore = 0;
+            document.getElementById('playerScore').textContent = playerScore; // Reset the player's score in the DOM
+            document.getElementById('computerScore').textContent = computerScore; // Reset the computer's score in the DOM
+            document.getElementById('playerImage').src = "./img/questionMark.png"; // Reset the player's image
+            document.getElementById('computerImage').src = "./img/questionMark.png"; // Reset the computer's image
+
         } else if (computerScore === 5) {
             console.log("You lost the best out of 5 :(");
+            alert("You lost the best out of 5 :(");
             playerScore = 0;
             computerScore = 0;
+            document.getElementById('playerScore').textContent = playerScore; // Reset the player's score in the DOM
+            document.getElementById('computerScore').textContent = computerScore; // Reset the computer's score in the DOM
+            document.getElementById('playerImage').src = "./img/questionMark.png"; // Reset the player's image
+            document.getElementById('computerImage').src = "./img/questionMark.png"; // Reset the computer's image
+
         }
     }
+
+
+
 
     // Return the public interface for the game.
     return { getPlayerChoice, game };

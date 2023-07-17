@@ -54,6 +54,10 @@ button.rock, button.paper, button.scissors {
     width: 12em; /* Adjust this to change the button size */
     border: none;
 }
+button.rock:hover, button.paper:hover, button.scissors:hover {
+    filter: brightness(400%);
+    cursor: pointer;
+}
 
 button.rock{
     background-image: url("./img/rock.png");
