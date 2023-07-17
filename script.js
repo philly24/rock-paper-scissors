@@ -1,15 +1,16 @@
 /**
- * createGame - A factory function to encapsulate the game state and behaviour.
+ * The createGame function is a factory function that encapsulates 
+ * the state and behavior of the game.
  *
  * @return {object} An object with methods to start the game and make a player's choice.
  */
 function createGame() {
-    // These variables hold the scores for the current game.
+    // The player and computer scores for the current game.
     let playerScore = 0;
     let computerScore = 0;
 
     /**
-     * getComputerChoice - Randomly determine the computer's choice in a round.
+     * The getComputerChoice function randomly determines the computer's choice in a round.
      *
      * @return {string} The computer's choice for this round. One of 'rock', 'paper', or 'scissors'.
      */
@@ -17,12 +18,15 @@ function createGame() {
         const arrayOfChoice = ["rock", "paper", "scissors"];
         let randomChoice = Math.floor(Math.random() * 3);
         console.log(arrayOfChoice[randomChoice]);
-
-
-
         return arrayOfChoice[randomChoice];
     }
 
+    /**
+     * The getComputerChoiceHelper function sets the computer's image 
+     * according to the computer's choice.
+     *
+     * @param {string} ComputerChoice - The computer's choice for this round.
+     */
     function getComputerChoiceHelper(ComputerChoice) {
         switch (ComputerChoice) {
             case "rock":
@@ -36,46 +40,39 @@ function createGame() {
                 break;
         }
     }
+
     /**
-     * getPlayerChoice - Attach event listeners to the player's choice buttons to get the player's choice.
+     * The getPlayerChoice function attaches event listeners to the 
+     * player's choice buttons to get the player's choice.
      */
     function getPlayerChoice() {
         const rockButton = document.getElementById("rockId");
         const paperButton = document.getElementById("paperId");
         const scissorsButton = document.getElementById("scissorsId");
-        let computerChoice = getComputerChoice();  // store the computer choice in a variable
+        // Attach event listeners to player's choice buttons.
+        rockButton.addEventListener("click", handleClick);
+        paperButton.addEventListener("click", handleClick);
+        scissorsButton.addEventListener("click", handleClick);
 
-        rockButton.addEventListener("click", function () {
-            let computerChoice = getComputerChoice();  // store the computer choice in a variable
-            console.log("rock button was clicked");
-            document.getElementById('playerImage').src = "./img/rock.png";
-            getComputerChoiceHelper(computerChoice);
-            playRound("rock", computerChoice);
-            game();
-        });
-        paperButton.addEventListener("click", function () {
-            let computerChoice = getComputerChoice();  // store the computer choice in a variable
-            console.log("paper button was clicked");
-            document.getElementById('playerImage').src = "./img/paper.png";
-            getComputerChoiceHelper(computerChoice);
-            playRound("paper", computerChoice);
-            game();
-        });
-        scissorsButton.addEventListener("click", function () {
-            let computerChoice = getComputerChoice();  // store the computer choice in a variable
-            console.log("scissors button was clicked");
-            document.getElementById('playerImage').src = "./img/scissors.png";
-            getComputerChoiceHelper(computerChoice);
-            playRound("scissors", computerChoice);
-            game();
-        });
+        /**
+         * The handleClick function handles click events for the player's choice buttons.
+         */
+        function handleClick() {
+            const playerChoice = this.id.slice(0, -2);  // Get player's choice from button id
+            const computerChoice = getComputerChoice();  // Generate the computer's choice
+            document.getElementById('playerImage').src = `./img/${playerChoice}.png`;  // Update player's image
+            getComputerChoiceHelper(computerChoice);  // Update computer's image
+            playRound(playerChoice, computerChoice);  // Play the round
+            game();  // Check the game status
+        }
     }
 
     /**
-     * playRound - Determine the outcome of a round of the game "Rock, Paper, Scissors".
+     * The playRound function determines the outcome of a round of 
+     * the game "Rock, Paper, Scissors".
      *
-     * @param  {string} playerSelection The player's choice for this round. Expected to be 'rock', 'paper', or 'scissors'.
-     * @param  {string} computerSelection The computer's choice for this round. Also expected to be 'rock', 'paper', or 'scissors'.
+     * @param  {string} playerSelection - The player's choice for this round.
+     * @param  {string} computerSelection - The computer's choice for this round.
      */
     function playRound(playerSelection, computerSelection) {
         const wins = {
@@ -83,51 +80,45 @@ function createGame() {
             'scissors': 'paper',
             'paper': 'rock'
         };
-
-        // game logic for determining who wins and lose
+        // Game logic for determining the winner
         if (playerSelection === computerSelection) {
             console.log("It's a draw!");
-            return 0;
         } else if (wins[playerSelection] === computerSelection) {
             console.log(`You Win! ${playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1)} beats ${computerSelection}`);
             playerScore++;
-            document.getElementById('playerScore').textContent = playerScore; // Update the player's score in the DOM
+            // Update the player's score in the DOM
+            document.getElementById('playerScore').textContent = playerScore;
         } else {
             console.log(`You Lose! ${computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1)} beats ${playerSelection}`);
             computerScore++;
-            document.getElementById('computerScore').textContent = computerScore; // Update the computer's score in the DOM
+            // Update the computer's score in the DOM
+            document.getElementById('computerScore').textContent = computerScore;
         }
     }
 
     /**
-     * game - Check if a player has won the game (reached 5 points) and resets the score.
+     * The game function checks if a player has won the game (reached 5 points) 
+     * and resets the score.
      */
     function game() {
-        if (playerScore === 5) {
-            console.log("You won the best out of 5!");
-            alert("You won the best out of 5!");
+        if (playerScore === 5 || computerScore === 5) {
+            // Log and alert the game result
+            const message = playerScore === 5 
+                ? "You won the best out of 5!" 
+                : "You lost the best out of 5 :(";
+            console.log(message);
+            alert(message);
+            // Reset scores
             playerScore = 0;
             computerScore = 0;
-            document.getElementById('playerScore').textContent = playerScore; // Reset the player's score in the DOM
-            document.getElementById('computerScore').textContent = computerScore; // Reset the computer's score in the DOM
-            document.getElementById('playerImage').src = "./img/questionMark.png"; // Reset the player's image
-            document.getElementById('computerImage').src = "./img/questionMark.png"; // Reset the computer's image
-
-        } else if (computerScore === 5) {
-            console.log("You lost the best out of 5 :(");
-            alert("You lost the best out of 5 :(");
-            playerScore = 0;
-            computerScore = 0;
-            document.getElementById('playerScore').textContent = playerScore; // Reset the player's score in the DOM
-            document.getElementById('computerScore').textContent = computerScore; // Reset the computer's score in the DOM
-            document.getElementById('playerImage').src = "./img/questionMark.png"; // Reset the player's image
-            document.getElementById('computerImage').src = "./img/questionMark.png"; // Reset the computer's image
-
+            // Reset the scores in the DOM
+            document.getElementById('playerScore').textContent = playerScore;
+            document.getElementById('computerScore').textContent = computerScore;
+            // Reset the images in the DOM
+            document.getElementById('playerImage').src = "./img/questionMark.png";
+            document.getElementById('computerImage').src = "./img/questionMark.png";
         }
     }
-
-
-
 
     // Return the public interface for the game.
     return { getPlayerChoice, game };
